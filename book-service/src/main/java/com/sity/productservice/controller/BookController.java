@@ -2,6 +2,7 @@ package com.sity.productservice.controller;
 
 import com.sity.productservice.dto.BookRequest;
 import com.sity.productservice.dto.BookResponse;
+import com.sity.productservice.repository.BookRepository;
 import com.sity.productservice.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,10 +14,13 @@ import java.util.List;
 @RequestMapping("api/v1/books")
 public class BookController {
     private final BookService bookService;
+    private final BookRepository bookRepository;
 
     @Autowired
-    public BookController(BookService bookService) {
+    public BookController(BookService bookService,
+                          BookRepository bookRepository) {
         this.bookService = bookService;
+        this.bookRepository = bookRepository;
     }
 
     @GetMapping
@@ -30,10 +34,23 @@ public class BookController {
         return bookService.addBook(bookRequest);
     }
 
-    @GetMapping("/{bookId}")
+    @GetMapping("/search/{bookId}")
     @ResponseStatus(HttpStatus.OK)
     public BookResponse getBookById(@PathVariable("bookId") Long id){
         return bookService.getBookById(id);
+    }
+
+    @GetMapping("/{title}")
+    @ResponseStatus(HttpStatus.OK)
+    public List<BookResponse> searchBookByTitle(@PathVariable("title") String title){
+        return bookService.searchBooksTitle(title);
+    }
+
+
+    @DeleteMapping("/{bookId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteBook(@PathVariable("bookId") Long id){
+        bookService.deleteBook(id);
     }
 
 

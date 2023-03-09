@@ -13,9 +13,11 @@ public interface BookService {
 
     BookResponse getBookById(Long id);
 
+    List<BookResponse> searchBooksTitle(String title);
+
     BookResponse addBook(BookRequest bookRequest);
 
-    BookRequest updateBook(Long id, BookRequest bookRequest);
+    BookResponse updateBook(Long id, BookRequest bookRequest);
 
     void deleteBook(Long id);
 }

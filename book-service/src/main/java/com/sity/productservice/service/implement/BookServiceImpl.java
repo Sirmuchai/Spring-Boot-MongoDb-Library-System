@@ -38,6 +38,12 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
+    public List<BookResponse> searchBooksTitle(String title){
+        List<Book> books = bookRepository.findByTitleContainingIgnoreCase(title);
+        return books.stream().map(this::mapToResponse).collect(Collectors.toList());
+    }
+
+    @Override
     public BookResponse addBook(BookRequest bookRequest) {
         Book book = mapToEntity(bookRequest);
         bookRepository.save(book);
@@ -45,14 +51,26 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public BookRequest updateBook(Long id, BookRequest bookRequest) {
+    public BookResponse updateBook(Long id, BookRequest bookRequest) {
+        Optional<Book> bookOptional = bookRepository.findById(id);
+        if (bookOptional.isPresent()){
+            Book book = bookOptional.get();
+            book.setTitle(bookRequest.getTitle());
+            book.setAuthor(bookRequest.getAuthor());
+            book.setTitle(bookRequest.getIsbn());
+            book.setPublicationDate(bookRequest.getPublicationDate());
+
+            bookRepository.save(book);
+            return mapToResponse(book);
+        }
         return null;
     }
 
     @Override
     public void deleteBook(Long id) {
-
+        bookRepository.deleteById(id);
     }
+
 
     private BookResponse mapToResponse(Book book){
         ModelMapper modelMapper = new ModelMapper();
