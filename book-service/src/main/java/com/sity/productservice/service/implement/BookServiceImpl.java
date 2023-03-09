@@ -57,10 +57,10 @@ public class BookServiceImpl implements BookService {
             Book book = bookOptional.get();
             book.setTitle(bookRequest.getTitle());
             book.setAuthor(bookRequest.getAuthor());
-            book.setTitle(bookRequest.getIsbn());
+            book.setIsbn(bookRequest.getIsbn());
             book.setPublicationDate(bookRequest.getPublicationDate());
 
-            bookRepository.save(book);
+            book = bookRepository.save(book);
             return mapToResponse(book);
         }
         return null;

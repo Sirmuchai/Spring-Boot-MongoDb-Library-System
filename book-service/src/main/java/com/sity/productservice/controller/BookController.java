@@ -28,24 +28,30 @@ public class BookController {
         return bookService.getAllBooks();
     }
 
+
+    @GetMapping("/{bookId}")
+    @ResponseStatus(HttpStatus.OK)
+    public BookResponse getBookById(@PathVariable("bookId") Long id){
+        return bookService.getBookById(id);
+    }
+
+    @GetMapping("/search/{title}")
+    @ResponseStatus(HttpStatus.OK)
+    public List<BookResponse> searchBookByTitle(@PathVariable("title") String title){
+        return bookService.searchBooksTitle(title);
+    }
+
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public BookResponse addBook(@RequestBody BookRequest bookRequest){
         return bookService.addBook(bookRequest);
     }
 
-    @GetMapping("/search/{bookId}")
+    @PutMapping("/{bookId}")
     @ResponseStatus(HttpStatus.OK)
-    public BookResponse getBookById(@PathVariable("bookId") Long id){
-        return bookService.getBookById(id);
+    public BookResponse updateBook(@PathVariable("bookId") Long id, @RequestBody BookRequest bookRequest){
+        return bookService.updateBook(id, bookRequest);
     }
-
-    @GetMapping("/{title}")
-    @ResponseStatus(HttpStatus.OK)
-    public List<BookResponse> searchBookByTitle(@PathVariable("title") String title){
-        return bookService.searchBooksTitle(title);
-    }
-
 
     @DeleteMapping("/{bookId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
