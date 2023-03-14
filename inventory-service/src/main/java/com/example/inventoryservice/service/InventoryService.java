@@ -1,6 +1,8 @@
 package com.example.inventoryservice.service;
 
+import com.example.inventoryservice.dto.InventoryCatalog;
 import com.example.inventoryservice.dto.InventoryResponse;
+import com.example.inventoryservice.model.Book;
 import com.example.inventoryservice.model.BookInventory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,4 +14,6 @@ import java.util.List;
 @Transactional
 public interface InventoryService {
     List<InventoryResponse> isInStock(List<Long> id);
+
+    InventoryCatalog getInventoryCatalog(Long id);
 }

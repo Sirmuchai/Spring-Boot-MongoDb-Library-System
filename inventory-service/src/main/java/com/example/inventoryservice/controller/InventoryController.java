@@ -1,7 +1,7 @@
 package com.example.inventoryservice.controller;
 
+import com.example.inventoryservice.dto.InventoryCatalog;
 import com.example.inventoryservice.dto.InventoryResponse;
-import com.example.inventoryservice.repository.InventoryRepository;
 import com.example.inventoryservice.service.InventoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -21,5 +21,11 @@ public class InventoryController {
     public List<InventoryResponse> isInStock(@RequestParam List<Long> id){
 
         return inventoryService.isInStock(id);
+    }
+
+    @GetMapping("/{bookId}")
+    @ResponseStatus(HttpStatus.OK)
+    public InventoryCatalog getInventoryCatalog(@PathVariable("bookId") Long id){
+        return inventoryService.getInventoryCatalog(id);
     }
 }
